@@ -16,6 +16,7 @@ function getUserById($id)
     return null;
 }
 
+
 function createUser($data)
 {
     $users = getUsers();
