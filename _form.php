@@ -27,6 +27,10 @@ if (!empty($_POST)) {
         $extension = substr($fileName, $dotPosition + 1);
         // Save the file to the file system giving "$userId.$extension" as the name
         move_uploaded_file($_FILES['picture']['tmp_name'], __DIR__ . "/users/images/${user['id']}.$extension");
+
+        // If user has image, save the file extension in JSON also
+        $_POST['extension'] = $extension;
+        updateUser($_POST, $_POST['id']);
     }
 
     // Redirect user to index.page

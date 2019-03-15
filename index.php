@@ -20,6 +20,7 @@ require_once 'partials/header.php';
     <table class="table">
         <thead>
         <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Username</th>
             <th>Email</th>
@@ -31,6 +32,15 @@ require_once 'partials/header.php';
         <tbody>
         <?php foreach ($users as $user): ?>
             <tr>
+                <td>
+                    <!--
+                    Check if the user has extension it means that the user has image also, so we are displaying image here.
+                    Create a new user or update and upload image and it will display image
+                    -->
+                    <?php if (isset($user['extension']) && file_exists(__DIR__ . "/users/images/${user['id']}.${user['extension']}")): ?>
+                        <img width="60" src="users/images/<?php echo $user['id'].'.'.$user['extension'] ?>">
+                    <?php endif; ?>
+                </td>
                 <td><?php echo $user['name'] ?></td>
                 <td><?php echo $user['username'] ?></td>
                 <td><?php echo $user['email'] ?></td>
