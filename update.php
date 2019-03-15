@@ -1,19 +1,22 @@
 <?php
-
 require_once 'users/users.php';
-
-$userId = $_GET['id'];
-$user = getUserById($userId);
-
-//echo '<pre>';
-//var_dump($user);
-//echo '</pre>';
-
 require_once 'partials/header.php';
+
+if (!isset($_GET['id'])) {
+    include "partials/not_found.php";
+    exit;
+}
+
+$user = getUserById($_GET['id']);
+if (!$user) {
+    include "partials/not_found.php";
+    exit;
+}
+
 ?>
 
-    <div class="container">
-        <!--        Draw your form here-->
-    </div>
+<div class="container">
+    <?php require __DIR__ . "/_form.php" ?>
+</div>
 
 <?php require_once 'partials/footer.php'; ?>

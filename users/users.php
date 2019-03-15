@@ -33,12 +33,22 @@ function getUserById($id)
     return null;
 }
 
-
+/**
+ * Create user from $data and return just created user id
+ *
+ * @param $data
+ * @return array
+ */
 function createUser($data)
 {
     $users = getUsers();
+
+    // Generate a random ID and put in $data
+    $data['id'] = rand(1000000, 2000000);
     $users[] = $data;
     putUsers($users);
+
+    return $data;
 }
 
 function updateUser($data, $id)
@@ -47,9 +57,10 @@ function updateUser($data, $id)
     foreach ($users as $i => $user) {
         if ($user['id'] == $id) {
             /*
-            Array + Array merges two associative arrays, overwriting properties from the second array to the first one
+            Merge two associative arrays, overwriting properties from the second array to the first one
             */
-            $users[$i] = $user + $data;
+            $users[$i] = array_merge($user, $data);
+            break;
         }
     }
     putUsers($users);
