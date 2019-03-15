@@ -2,6 +2,9 @@
 require_once __DIR__ . '/users/users.php';
 
 $users = getUsers();
+//echo '<pre>';
+//var_dump($users);
+//echo '</pre>';
 
 require_once 'partials/header.php';
 ?>
@@ -11,8 +14,9 @@ require_once 'partials/header.php';
     <br>
     <br>
     <p>
-        <a href="create.php" class="btn btn-success">Create</a>
+        <a href="create.php" class="btn btn-primary">Create</a>
     </p>
+
     <table class="table">
         <thead>
         <tr>
@@ -21,7 +25,7 @@ require_once 'partials/header.php';
             <th>Email</th>
             <th>Phone</th>
             <th>Website</th>
-            <th>Actions</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -31,11 +35,21 @@ require_once 'partials/header.php';
                 <td><?php echo $user['username'] ?></td>
                 <td><?php echo $user['email'] ?></td>
                 <td><?php echo $user['phone'] ?></td>
-                <td><?php echo $user['website'] ?></td>
                 <td>
-                    <a class="btn btn-sm btn-secondary" href="<?php echo 'view.php?id=' . $user['id'] ?>">View</a>
-                    <a class="btn btn-sm btn-secondary" href="<?php echo 'update.php?id=' . $user['id'] ?>">Update</a>
-                    <a class="btn btn-sm btn-secondary" href="<?php echo 'delete.php?id=' . $user['id'] ?>">Delete</a>
+                    <a target="_blank" href="http://<?php echo $user['website'] ?>">
+                        <?php echo $user['website'] ?>
+                    </a>
+                </td>
+                <td style="white-space: nowrap">
+                    <a class="btn btn-sm btn-outline-primary" href="view.php?id=<?php echo $user['id'] ?>">View</a>
+                    <a class="btn btn-sm btn-outline-info" href="update.php?id=<?php echo $user['id'] ?>">Update</a>
+                    <!-- Create form with method=POST as far as making a get request for data deletion is not safe -->
+                    <form method="POST" action="delete.php" style="display: inline-block">
+                        <!--Create hidden input field with value current user id, so that this user id will be posted to backend
+                        When delete button will be clicked-->
+                        <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
