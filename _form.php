@@ -1,9 +1,15 @@
 <?php
 
-// If $_POST is not empty
-if (!empty($_POST)) {
-//    // @todo validate all fields
-//    // When validation passes
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // @todo validate all fields
+    if (empty($_POST["name"])) {
+        $nameErr = "Name is required";
+    } else {
+        $name = test_input($_POST["name"]);
+    }
+
+
+    // When validation passes
 
     // Save user in JSON or update depending if $_POST['id'] exists or not
     if ($_POST['id']) {
@@ -36,6 +42,15 @@ if (!empty($_POST)) {
     // Redirect user to index.page
     header('Location: index.php');
 }
+
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 ?>
 
 <div class="card">
@@ -50,7 +65,8 @@ if (!empty($_POST)) {
         </h3>
     </div>
     <div class="card-body">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data"
+              action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <!--    Hidden field for saving id and submitting it to determine if we need to create user or updated it-->
             <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
             <div class="form-group">
