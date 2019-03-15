@@ -1,8 +1,9 @@
 <?php
+require_once 'partials/header.php';
 
 // Check if "id" exists in $_POST and redirect to index.php page if it does not exist
 if (!isset($_POST['id'])) {
-    header('Location: index.php');
+    include "partials/not_found.php";
     exit;
 }
 
