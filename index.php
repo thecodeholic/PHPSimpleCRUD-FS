@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/users/users.php';
 
-$users = getUsers();
 require_once 'partials/header.php';
 ?>
 
