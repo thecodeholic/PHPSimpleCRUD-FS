@@ -53,17 +53,20 @@ function createUser($data)
 
 function updateUser($data, $id)
 {
+    $updatedUser = [];
     $users = getUsers();
     foreach ($users as $i => $user) {
         if ($user['id'] == $id) {
             /*
             Merge two associative arrays, overwriting properties from the second array to the first one
             */
-            $users[$i] = array_merge($user, $data);
+            $updatedUser = array_merge($user, $data);
+            $users[$i] = $updatedUser;
             break;
         }
     }
     putUsers($users);
+    return $updatedUser;
 }
 
 function deleteUser($id)
