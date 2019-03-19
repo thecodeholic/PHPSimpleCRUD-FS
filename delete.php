@@ -20,8 +20,14 @@ exit;
 
 // At this point we know that id was sent
 $userId = $_POST['id'];
+$user = getUserById($userId);
 
 deleteUser($userId);
+
+// Check if the user has image delete this image also
+if (file_exists(__DIR__."/users/images/$userId.${user['extension']}")){
+    unlink(__DIR__."/users/images/$userId.${user['extension']}");
+}
 
 header('Location: index.php');
 
