@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Save user in JSON or update depending if $_POST['id'] exists or not
     if ($_POST['id']) {
-        updateUser($_POST, $_POST['id']);
+        $user = updateUser($_POST, $_POST['id']);
     } else {
         // Create user and save the returned $user
         $user = createUser($_POST);
@@ -31,12 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dotPosition = strpos($fileName, '.');
         // Take the substring from the dot position till the end of the string
         $extension = substr($fileName, $dotPosition + 1);
+
+        // Create users/images if it does not exist
+        if (!is_dir(__DIR__ . "/users/images/")){
+            mkdir(__DIR__ . "/users/images/");
+        }
+
         // Save the file to the file system giving "$userId.$extension" as the name
         move_uploaded_file($_FILES['picture']['tmp_name'], __DIR__ . "/users/images/${user['id']}.$extension");
 
         // If user has image, save the file extension in JSON also
         $_POST['extension'] = $extension;
-        updateUser($_POST, $_POST['id']);
+        updateUser($_POST, $user['id']);
     }
 
     // Redirect user to index.page
@@ -66,7 +72,7 @@ function test_input($data)
     </div>
     <div class="card-body">
         <form method="POST" enctype="multipart/form-data"
-              action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+              action="">
             <!--    Hidden field for saving id and submitting it to determine if we need to create user or updated it-->
             <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
             <div class="form-group">
